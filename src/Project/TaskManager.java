@@ -3,7 +3,6 @@ package Project;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -12,16 +11,16 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
-public class Task04 {
+public class TaskManager {
+
     static final String FILE_NAME = "tasks.csv";
-    static String [][] tasks;
+    static String[][] tasks;
     static final String[] OPTIONS = {"add", "remove", "list", "exit"};
 
     public static void main(String[] args) {
 
         tasks = loadDataToTab(FILE_NAME);
         Scanner scan = new Scanner(System.in);
-        File file = new File("tasks.csv");
         printOptions(OPTIONS);
 
         while (scan.hasNextLine()) {
@@ -32,14 +31,15 @@ public class Task04 {
                     System.out.println(ConsoleColors.GREEN + "Task successfully added.");
                     break;
                 case "remove":
-                    removeTask(tasks,getTheNumber());
-                    System.out.println(ConsoleColors.GREEN + "Value was successfully deleted.");
+                    removeTask(tasks, getTheNumber());
                     break;
                 case "list":
                     printList(tasks);
                     break;
                 case "exit":
-                    System.out.println("wybór EXIT działa");
+                    saveTabToFile(FILE_NAME, tasks);
+                    System.out.println(ConsoleColors.RED + "Bye, bye.");
+                    System.exit(0);
                     break;
                 default:
                     System.out.println("Podałeś coś źle");
@@ -54,6 +54,7 @@ public class Task04 {
         for (int i = 0; i < tab.length; i++) {
             System.out.println(ConsoleColors.RESET + tab[i]);
         }
+        System.out.println(ConsoleColors.BLUE + "Add option here: " + ConsoleColors.RESET);
     }
 
     public static void printList(String[][] tab) {
@@ -88,6 +89,7 @@ public class Task04 {
         }
         return tab;
     }
+
     private static void addTask() {
         Scanner scan = new Scanner(System.in);
 
@@ -112,6 +114,7 @@ public class Task04 {
         }
         return false;
     }
+
     public static int getTheNumber() {
 
         Scanner scanner = new Scanner(System.in);
@@ -120,19 +123,35 @@ public class Task04 {
         String n = scanner.nextLine();
         while (!isNumberGreaterEqualZero(n)) {
             System.out.println("Incorrect argument passed. Please give number greater or equal 0");
-            scanner.nextLine();
+            n = scanner.nextLine();
         }
         return Integer.parseInt(n);
 
     }
+
     private static void removeTask(String[][] tab, int index) {
 
         try {
             if (index < tab.length) {
                 tasks = ArrayUtils.remove(tab, index);
+                System.out.println(ConsoleColors.GREEN + "Value was successfully deleted." + ConsoleColors.RESET);
             }
-        } catch (ArrayIndexOutOfBoundsException ex) {
+        } catch (ArrayIndexOutOfBoundsException e) {
             System.out.println("Element not exist in tab");
+        }
+    }
+
+    public static void saveTabToFile(String fileName, String[][] tab) {
+
+        Path dir = Paths.get(fileName);
+        String[] lines = new String[tasks.length];
+        for (int i = 0; i < tab.length; i++) {
+            lines[i] = String.join(",", tab[i]);
+        }
+        try {
+            Files.write(dir, Arrays.asList(lines));
+        } catch (IOException ex) {
+            ex.printStackTrace();
         }
     }
 }
