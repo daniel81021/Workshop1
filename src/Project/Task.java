@@ -8,9 +8,9 @@ public class Task {
     }
 
     public static void printOptions(String[] tab) {
+        System.out.println(ConsoleColors.BLUE + "Please select an option: ");
         for (int i = 0; i < tab.length; i++) {
-            System.out.println(tab[i]);
-
+            System.out.println(ConsoleColors.RESET + tab[i]);
         }
     }
 }
