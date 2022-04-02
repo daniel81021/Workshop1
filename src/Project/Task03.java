@@ -8,36 +8,39 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.Scanner;
 
-public class Task02 {
+public class Task03 {
+
     public static void main(String[] args) {
         String[][] tasks;
         String fileName = "tasks.csv";
         tasks = loadDataToTab(fileName);
         String[] options = {"add", "remove", "list", "exit"};
         Scanner scan = new Scanner(System.in);
-        printOptions(options);
-        String input = scan.next();
         File file = new File("tasks.csv");
+        printOptions(options);
 
 
-        switch (input) {
-            case "add":
-                System.out.println("wybór ADD działa");
-                break;
-            case "remove":
-                System.out.println("wybór REMOVE działa");
-                break;
-            case "list":
-                printList(tasks);
-                break;
-            case "exit":
-                System.out.println("wybór EXIT działa");
-                break;
-            default:
-                System.out.println("Podałeś coś źle");
-
+        while (scan.hasNextLine()) {
+            String input = scan.next();
+            switch (input) {
+                case "add":
+                    System.out.println("wybór ADD działa");
+                    break;
+                case "remove":
+                    System.out.println("wybór REMOVE działa");
+                    break;
+                case "list":
+                    printList(tasks);
+                    break;
+                case "exit":
+                    System.out.println("wybór EXIT działa");
+                    break;
+                default:
+                    System.out.println("Podałeś coś źle");
+            }
+            System.out.println();
+            printOptions(options);
         }
-
     }
 
     public static void printOptions(String[] tab) {
@@ -80,3 +83,6 @@ public class Task02 {
         return tab;
     }
 }
+
+
+
