@@ -136,7 +136,7 @@ public class TaskManager {
                 tasks = ArrayUtils.remove(tab, index);
                 System.out.println(ConsoleColors.GREEN + "Value was successfully deleted." + ConsoleColors.RESET);
             }
-        } catch (ArrayIndexOutOfBoundsException e) {
+        } catch (IndexOutOfBoundsException e) {
             System.out.println("Element not exist in tab");
         }
     }
